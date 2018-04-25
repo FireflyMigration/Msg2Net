@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -29,11 +30,12 @@ namespace Msg2Net
         {
             if (args.Length == 0)
             {
-                Console.WriteLine(("Usage: Msg2Net \"[Window Title]\" (parameters)"));
+                Console.WriteLine(("Usage: Msg2Net \"[Process Name]\" (parameters)"));
                 return;
             }
 
-            var hwnd = FindWindow(null, args[0]);
+            var proc = Process.GetProcessesByName(args[0]);
+            var hwnd = proc[0].MainWindowHandle;
             if (hwnd == IntPtr.Zero)
             {
                 Console.WriteLine("Window '{0}' not found", args[0]);
