@@ -35,6 +35,12 @@ namespace Msg2Net
             }
 
             var proc = Process.GetProcessesByName(args[0]);
+            if (proc.Length == 0)
+            {
+                Console.WriteLine("Process '{0}' not found", args[0]);
+                return;
+            }
+
             var hwnd = proc[0].MainWindowHandle;
             if (hwnd == IntPtr.Zero)
             {
