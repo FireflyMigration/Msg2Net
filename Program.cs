@@ -41,7 +41,22 @@ namespace Msg2Net
                 return;
             }
 
-            var hwnd = proc[0].MainWindowHandle;
+            var currentSessionID = Process.GetCurrentProcess().SessionId;
+            Process currentProcess = null;
+            foreach (Process pr in proc)
+            {
+                if (pr.SessionId == currentSessionID)
+                { 
+                    currentProcess = pr;
+                    break;
+                }
+            }
+            if (currentProcess == null)
+            {
+                Console.WriteLine("Process '{0}' not found", args[0]);
+                return;
+            }
+            var hwnd = currentProcess.MainWindowHandle;
             if (hwnd == IntPtr.Zero)
             {
                 Console.WriteLine("Window '{0}' not found", args[0]);
